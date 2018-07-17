@@ -17,7 +17,7 @@ const wsLink = new WebSocketLink({
   uri: 'wss://subscriptions.ap-northeast-1.graph.cool/v1/cjjoa2ta44sb201919b2xa3rl',
   options: {
     reconnect: true
-  }
+  },
 });
 const link = split(
   ({ query }) => {
