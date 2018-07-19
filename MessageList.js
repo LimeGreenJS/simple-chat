@@ -39,15 +39,15 @@ const MessageItem = ({ message }) => (
 
 const MessageListView = class extends React.PureComponent {
   componentDidMount() {
-  	this.props.subscribeToMore();
+    this.props.subscribeToMore();
   }
   render() {
-  	const { data } = this.props;
-  	return (
-  		<ul style={{ listStyleType: 'none', padding: 0 }}>
-  		{data.allMessages.map(message => <MessageItem key={message.id} message={message} />)}
-  		</ul>
-  	);
+    const { data } = this.props;
+    return (
+      <ul style={{ listStyleType: 'none', padding: 0 }}>
+      {data.allMessages.map(message => <MessageItem key={message.id} message={message} />)}
+      </ul>
+    );
   }
 };
 
@@ -57,17 +57,17 @@ const MessageList = () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error: {error.message}</p>;
       const more = () => subscribeToMore({
-  			document: subscription,
-  			updateQuery: (prev, { subscriptionData }) => {
-  				if (!subscriptionData.data) return prev;
-  				const { mutation, node } = subscriptionData.data.Message;
-  				if (mutation !== 'CREATED') return prev;
-  				return Object.assign({}, prev, {
-  					allMessages: [node, ...prev.allMessages].slice(0, 20),
-  				});
-  			},
-  		});
-  		return <MessageListView data={data} subscribeToMore={more}/>;
+        document: subscription,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          const { mutation, node } = subscriptionData.data.Message;
+          if (mutation !== 'CREATED') return prev;
+          return Object.assign({}, prev, {
+            allMessages: [node, ...prev.allMessages].slice(0, 20),
+          });
+        },
+      });
+      return <MessageListView data={data} subscribeToMore={more}/>;
     }}
   </Query>
 );
